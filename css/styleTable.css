@@ -1,0 +1,16 @@
+.table {
+    position: relative;
+    width: 831.5px;
+    height: 977px;
+    margin: 4px 0px 4px 544.25px;
+    overflow: auto;
+}
+
+#tableHeder {
+    position: fixed;
+    background: #f5bf6d;
+}
+
+#table {
+    margin-top: 33px;
+}

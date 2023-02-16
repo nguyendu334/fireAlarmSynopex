@@ -1,0 +1,24 @@
+@keyframes fill {
+    0% {
+        fill: rgb(243, 137, 137);
+    }
+
+    50% {
+        fill: #ffffff;
+    }
+
+    100% {
+        fill: rgb(248, 133, 133);
+    }
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
