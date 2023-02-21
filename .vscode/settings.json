@@ -1,8 +1,8 @@
 {
-  "editor.cursorStyle": "line-thin",
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[svg]": {
-    "editor.defaultFormatter": "jock.svg"
-  }
+    "editor.cursorStyle": "line-thin",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[svg]": {
+        "editor.defaultFormatter": "jock.svg"
+    }
 }

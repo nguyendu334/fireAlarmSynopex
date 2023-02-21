@@ -1,118 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FIRE ALARM MONITORING WEB-SYSTEM</title>
-    <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="stylesheet" href="./css/styleTable.css" />
-    <link rel="shortcut icon" href="./img/monitoring.png" type="image/x-icon" />
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FIRE ALARM MONITORING WEB-SYSTEM</title>
+        <link rel="stylesheet" href="./css/styles.css" />
+        <link rel="stylesheet" href="./css/styleTable.css" />
+        <link rel="shortcut icon" href="./img/monitoring.png" type="image/x-icon" />
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    </head>
 
-  <body>
-    <div id="container">
-      <header id="tieude">
-        <a href="index.html" class="logo">
-          <img src="./svg/list.svg" alt="" class="svg-list" />
-          <b class="syno">Syno<span style="font-size: 34px">pex</span> </b>
-        </a>
+    <body>
+        <div id="container">
+            <header id="tieude">
+                <a href="index.html" class="logo">
+                    <img src="./svg/list.svg" alt="" class="svg-list" />
+                    <b class="syno">Syno<span style="font-size: 34px">pex</span> </b>
+                </a>
 
-        <p id="myTime"></p>
+                <p id="myTime"></p>
 
-        <div class="backname">
-          <span class="NameProject">FIRE ALARM MONITORING WEB-SYSTEM</span>
+                <div class="backname">
+                    <span class="NameProject">FIRE ALARM MONITORING WEB-SYSTEM</span>
+                </div>
+            </header>
+
+            <div class="table" id="sheet0">
+                <table cellpadding="0" cellspacing="0" id="tableHeder" border="1"></table>
+                <table cellpadding="0" cellspacing="0" id="table" border="1"></table>
+            </div>
+
+            <button class="button-export" onclick="Export()">Export Data</button>
+
+            <!-- <section class="footer" style="margin-top: 0px;">
+                <span class="process">PROCESSING:</span>
+                <input class="input-process" type="text" disabled />
+
+                <span class="connect">CONNECT:</span>
+                <input id="connect" class="black" type="text" disabled />
+
+                <span class="mqtt">MQTT:</span>
+                <input id="mqtt" class="black" type="text" disabled />
+
+                <span class="SPINKLER">SPINKLER:</span>
+                <input id="SPINKLER" class="black" type="text" disabled />
+
+                <span class="pumpPlc">PLC:</span>
+                <input id="pumpPlc" class="black" type="text" disabled />
+
+                <span class="time-data">TIME UPDATE DATA:</span>
+                <input id="timedata" type="text" disabled />
+            </section> -->
         </div>
-      </header>
 
-      <div class="table">
-        <table
-          cellpadding="0"
-          cellspacing="0"
-          id="tableHeder"
-          border="1"
-        ></table>
-        <table cellpadding="0" cellspacing="0" id="table" border="1"></table>
-      </div>
+        <script>
+            function Export() {
+                $('#sheet0').table2excel({
+                    filename: 'Lịch_sử_báo_cháy' + '.xls',
+                    preserveColors: true,
+                });
+            }
+            setInterval(() => {
+                timer();
+                read1();
+            }, 1);
 
-      <section class="footer" style="margin-top: 0px">
-        <span class="process">PROCESSING:</span>
-        <input class="input-process" type="text" disabled />
+            sigmqtt = 0;
+            const timer = () => {
+                var date = new Date();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                var day = date.getDate();
+                var h = date.getHours();
+                var m = date.getMinutes();
+                var s = date.getSeconds();
+                if (h < 10) h = '0' + h;
+                if (m < 10) m = '0' + m;
+                if (s < 10) s = '0' + s;
+                if (day < 10) day = '0' + day;
+                if (month < 10) month = '0' + month;
+                document.getElementById('myTime').innerHTML =
+                    h + ':' + m + ':' + s + '      ' + day + '/' + month + '/' + year;
+                sigmqtt++;
+            };
 
-        <span class="connect">CONNECT:</span>
-        <input id="connect" class="black" type="text" disabled />
+            const read1 = async () => {
+                try {
+                    const response = await axios.get('./firealarm.json');
+                    const dataList = response.data;
+                    history(dataList);
+                } catch {}
+            };
 
-        <span class="mqtt">MQTT:</span>
-        <input id="mqtt" class="black" type="text" disabled />
-
-        <span class="SPINKLER">SPINKLER:</span>
-        <input id="SPINKLER" class="black" type="text" disabled />
-
-        <span class="pumpPlc">PLC:</span>
-        <input id="pumpPlc" class="black" type="text" disabled />
-
-        <span class="time-data">TIME UPDATE DATA:</span>
-        <input id="timedata" type="text" disabled />
-      </section>
-    </div>
-
-    <script>
-      setInterval(() => {
-        timer();
-        read1();
-      }, 1);
-
-      sigmqtt = 0;
-      const timer = () => {
-        var date = new Date();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        var day = date.getDate();
-        var h = date.getHours();
-        var m = date.getMinutes();
-        var s = date.getSeconds();
-        if (h < 10) h = "0" + h;
-        if (m < 10) m = "0" + m;
-        if (s < 10) s = "0" + s;
-        if (day < 10) day = "0" + day;
-        if (month < 10) month = "0" + month;
-        document.getElementById("myTime").innerHTML =
-          h + ":" + m + ":" + s + "      " + day + "/" + month + "/" + year;
-        sigmqtt++;
-      };
-
-      const read1 = async () => {
-        try {
-          const response = await axios.get("./firealarm.json");
-          const dataList = response.data;
-          history(dataList);
-        } catch {}
-      };
-
-      const history = (data) => {
-        var dataTable = data.Historians.historians;
-        var table = document.getElementById("table");
-        var table1 = document.getElementById("tableHeder");
-        table1.innerHTML =
-          '<tr style="vertical-align:top;">' +
-          '<td style="width:0px;height:30px;"></td>' +
-          '<td style="width:80px;text-align:center;vertical-align:middle;"><b>DATE</b></td>' +
-          '<td style="width:150px;text-align:center;vertical-align:middle;"><b>TIME</b></td>' +
-          '<td style="width:455px;vertical-align:middle;padding-left: 120px"><b>ALARM</b></td>' +
-          '</tr>';
-        table.innerHTML = "";
-        for (let i = 0; i < dataTable.length; i++) {
-          table.innerHTML +=
-            '<tr style="vertical-align:top; ">' +
-            '<td style="width:0px;height:25px;"></td>' +
-            '<td style="width:80px;text-align:center;vertical-align:middle;">' + dataTable[i].DATE + '</td>' +
-            '<td style="width:150px;text-align:center;vertical-align:middle;">' + dataTable[i].TIME + '</td>' +
-            '<td style="width:500px;vertical-align:middle; padding-left: 75px">' + dataTable[i].ALARM + '</td>' +
-            "</tr>";
-        }
-      };
-    </script>
-    <script src="./scripts.js"></script>
-  </body>
+            const history = (data) => {
+                var dataTable = data.Historians.historians;
+                var table = document.getElementById('table');
+                var table1 = document.getElementById('tableHeder');
+                table1.innerHTML =
+                    '<tr style="vertical-align:top;">' +
+                    '<td style="width:0px;height:30px;"></td>' +
+                    '<td style="width:80px;text-align:center;vertical-align:middle;"><b>DATE</b></td>' +
+                    '<td style="width:150px;text-align:center;vertical-align:middle;"><b>TIME</b></td>' +
+                    '<td style="width:455px;vertical-align:middle;padding-left: 120px"><b>ALARM</b></td>' +
+                    '</tr>';
+                table.innerHTML = '';
+                for (let i = 0; i < dataTable.length; i++) {
+                    table.innerHTML +=
+                        '<tr style="vertical-align:top; ">' +
+                        '<td style="width:0px;height:25px;"></td>' +
+                        '<td style="width:80px;text-align:center;vertical-align:middle;">' +
+                        dataTable[i].DATE +
+                        '</td>' +
+                        '<td style="width:150px;text-align:center;vertical-align:middle;">' +
+                        dataTable[i].TIME +
+                        '</td>' +
+                        '<td style="width:500px;vertical-align:middle; padding-left: 75px">' +
+                        dataTable[i].ALARM +
+                        '</td>' +
+                        '</tr>';
+                }
+            };
+        </script>
+        <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="./scripts/scripts.js"></script>
+        <script src="./scripts/table2excel.js"></script>
+    </body>
 </html>
