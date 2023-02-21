@@ -5,13 +5,11 @@ setInterval(() => {
 var connect = document.getElementById('connect');
 const read = async () => {
     try {
-        const response = await axios.get('./firealarm.json');
+        const response = await axios.get('firealarm.json');
         connect.classList.add('green');
         connectAll(response.data);
         alarm(response.data);
-    } catch {
-        connect.classList.remove('green');
-    }
+    } catch {}
 };
 
 var connectAll = (data) => {
@@ -84,6 +82,28 @@ const alarm = (data) => {
                     soundAlarm.muted = false;
                 });
             }
+        } 
+        else if(dataAlarm[i] == 0) {
+            document
+                .getElementById('left-wapper')
+                .getSVGDocument()
+                .getElementById(`lamp ${i + 1}`).style.opacity = '1';
+            document
+                .getElementById('left-wapper')
+                .getSVGDocument()
+                .getElementById(`lamp ${i + 1}`).style.animation = 'none';
+            document
+                .getElementById('left-wapper')
+                .getSVGDocument()
+                .getElementById(`cab ${i + 1}`).style.animation = 'none';
+            document
+                .getElementById('left-wapper')
+                .getSVGDocument()
+                .getElementById(`zone ${i + 1}`).style.animation = 'none';
+            document
+                .getElementById('left-wapper')
+                .getSVGDocument()
+                .getElementById(`smoke${i + 1}`).style.opacity = '0';
         }
     }
 };

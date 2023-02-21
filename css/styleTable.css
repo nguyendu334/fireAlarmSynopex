@@ -1,7 +1,7 @@
 .table {
     position: relative;
     width: 831.5px;
-    max-height: 920px;
+    max-height: 950px;
     margin: 4px 0px 0px 544.25px;
     overflow: auto;
 }
@@ -15,9 +15,10 @@
     margin-top: 33px;
 }
 
-.button-export{
+.button-export {
     position: relative;
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
+    /* Green */
     height: 35px;
     border: 1px solid #000000;
     border-radius: 7px;
@@ -27,6 +28,6 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 12px 0px 14px 545px;
+    margin: 12px 0px 8px 545px;
     cursor: pointer;
 }
