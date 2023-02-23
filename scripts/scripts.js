@@ -5,7 +5,7 @@ setInterval(() => {
 var connect = document.getElementById('connect');
 const read = async () => {
     try {
-        const response = await axios.get('http://localhost:3000/db');
+        const response = await axios.get('./firealarm.json');
         connect.classList.add('green');
         connectAll(response.data);
         alarm(response.data);
