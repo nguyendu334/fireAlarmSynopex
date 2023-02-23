@@ -45,7 +45,7 @@ const alarm = (data) => {
     var loa = document.getElementById('loa');
 
     for (var i = 0; i < 30; i++) {
-        if (dataAlarm[i] == 1) {
+        if (Object.values(dataAlarm)[i] === 1) {
             document
                 .getElementById('left-wapper')
                 .getSVGDocument()
@@ -82,8 +82,9 @@ const alarm = (data) => {
                     soundAlarm.muted = false;
                 });
             }
-        } 
-        else if(dataAlarm[i] == 0) {
+        }
+
+        if (Object.values(dataAlarm).every((item) => item === 0)) {
             document
                 .getElementById('left-wapper')
                 .getSVGDocument()
@@ -104,6 +105,22 @@ const alarm = (data) => {
                 .getElementById('left-wapper')
                 .getSVGDocument()
                 .getElementById(`smoke${i + 1}`).style.opacity = '0';
+
+            soundAlarm.pause();
+            loa.src = 'img/onvolumn.png';
+            loa.style.cursor = 'pointer';
+
+            $('#loa').click(function () {
+                loa.style.opacity = '0';
+                soundAlarm.muted = true;
+            });
+
+            if (loa.style.opacity === '0') {
+                $('#loa').click(function () {
+                    loa.style.opacity = '1';
+                    soundAlarm.muted = false;
+                });
+            }
         }
     }
 };
